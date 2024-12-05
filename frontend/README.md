@@ -1,70 +1,122 @@
-# Getting Started with Create React App
+# React Application for Posts, Questions, and Chat Requests
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Introduction
 
-## Available Scripts
+This React application is designed to provide a platform for creating and managing posts, questions, and chat requests. It includes features like voting, commenting, and real-time chat functionalities.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 1. **Post Management**
+- **Create, View, and Discuss Posts:**
+  - Users can create posts with tags and view discussions.
+  - Voting functionality (upvote/downvote) with dynamic updates.
+  - Add and view comments in real time.
+  - Request chats with comment authors directly from the post.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 2. **Question Management**
+- Users can view questions with tags and interact by upvoting or downvoting.
+- View detailed discussions on specific questions.
 
-### `npm test`
+### 3. **Chat Requests**
+- Request private chats with other users based on comments or posts.
+- Integration with the backend to handle real-time chat initiation.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Components Overview
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 1. **PostCard**
+- Displays post details, voting functionality, comments, and chat request options.
+- Handles:
+  - Fetching vote status and comments dynamically.
+  - Adding comments and sending chat requests.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 2. **QuestionCard**
+- Displays question content, tags, and voting options.
+- Includes a "View Details" button for navigating to full question discussions.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Technologies Used
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Frontend
+- **React**: Core library for UI development.
+- **Material-UI**: UI component library for styling.
+- **React Router**: For navigation between pages.
+- **Axios**: For API integration.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Backend Integration
+- API endpoints integrated using Axios for:
+  - Fetching posts and questions.
+  - Voting on posts/questions.
+  - Adding comments.
+  - Sending chat requests.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Installation
 
-## Learn More
+### Prerequisites
+- Node.js and npm installed.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Steps
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd <repository-folder>
+Install dependencies:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+npm install
+```
 
-### Code Splitting
+Start the development server:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```
+npm start
+```
+**Component Details**
+**PostCard**
 
-### Analyzing the Bundle Size
+Handles displaying posts and enabling user interaction:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+**Props**:
+post: Object containing post details (e.g., title, content, tags, likes, comments).
 
-### Making a Progressive Web App
+**Features**:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Displays title, content, tags, and vote count.
+Allows users to upvote/downvote with feedback.
+Displays existing comments and allows adding new ones.
+Sends chat requests to comment authors.
 
-### Advanced Configuration
+**QuestionCard**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Handles displaying questions with tags and voting options:
 
-### Deployment
+**Props**:
+question: Object containing question details (e.g., content, tags, likes, dislikes).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+**Features**:
+Displays question content, tags, and vote count.
+"View Details" button navigates to the detailed question discussion page.
 
-### `npm run build` fails to minify
+**API Endpoints Used**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Posts**
+**GET** /api/posts: Fetch all posts.
+**POST** /api/posts: Create a new post.
+**POST** /api/posts/:id/comments: Add a comment to a post.
+**GET** /api/posts/:id/comments: Fetch all comments for a post.
+**POST** /api/posts/:id/likes: Update votes (upvote/downvote).
+**GET** /api/posts/:id/vote-status: Fetch vote status for the authenticated user.
+
+**Questions**
+
+**GET** /api/questions: Fetch all questions.
+**POST** /api/questions: Create a new question.
+
+**Chat Requests**
+**POST** /api/chat-requests/request: Send a chat request for a comment or post.
