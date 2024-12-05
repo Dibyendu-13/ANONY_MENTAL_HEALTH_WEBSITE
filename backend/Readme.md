@@ -65,8 +65,8 @@ This is a backend application for a web platform featuring user authentication, 
 Clone the repository:
 
 ```
-git clone https://github.com/Dibyendu-13/ANONY_MENTAL_HEALTH_WEBSITE
-cd ANONY_MENTAL_HEALTH_WEBSITE
+git clone https://github.com/Dibyendu-13/ANONY_MENTAL_HEALTH_WEBSITE/backend
+cd backend
 ```
 Install dependencies:
 
