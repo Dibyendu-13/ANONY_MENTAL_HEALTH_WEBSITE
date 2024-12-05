@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This is a backend application for a web platform featuring user authentication, chat functionality, notifications, posts, and questions. It includes real-time messaging, robust data management with MongoDB, and JWT-based authentication for secure access.
+This is a backend application for a web platform featuring user authentication, chat functionality, notifications, **POST**s, and questions. It includes real-time messaging, robust data management with MongoDB, and JWT-based authentication for secure access.
 
 ---
 
@@ -22,8 +22,8 @@ This is a backend application for a web platform featuring user authentication, 
 - Fetch, delete, and bulk delete notifications for users.
 - Notifications are tied to user actions, such as chat requests and responses.
 
-### 4. Posts and Comments
-- Create, fetch, and interact with posts (e.g., likes, comments).
+### 4. **POST**s and Comments
+- Create, fetch, and interact with **POST**s (e.g., likes, comments).
 - Support for visibility settings (e.g., specific to roles like "psychologists" or "students").
 - Nested comments with user and timestamp details.
 
@@ -36,7 +36,7 @@ This is a backend application for a web platform featuring user authentication, 
 
 ### Backend
 - **Node.js** with **Express.js**: Core server framework.
-- **MongoDB**: Database for managing users, chat messages, notifications, and posts.
+- **MongoDB**: Database for managing users, chat messages, notifications, and **POST**s.
 - **Socket.IO**: Real-time communication for chat.
 - **JWT**: Authentication and route protection.
 - **Google Perspective API**: Content validation for user-generated questions.
@@ -60,7 +60,8 @@ This is a backend application for a web platform featuring user authentication, 
   JWT_SECRET=<your-jwt-secret>
   GOOGLE_PERSPECTIVE_API_KEY=<your-google-api-key>
   ```
-Steps
+## Steps
+
 Clone the repository:
 
 ```
@@ -73,7 +74,7 @@ Install dependencies:
 npm install
 ```
 
-Start the server:
+### Start the server:
 
 ```
 npm start
@@ -83,67 +84,67 @@ For development with real-time updates:
 ```
 npm run dev
 ```
-API Endpoints
+## API Endpoints
 
-Authentication
+### Authentication
 
-POST /api/auth/register: Register a new user.
+ /api/auth/register: Register a new user.
 
-POST /api/auth/login: Login a user and retrieve a JWT.
+**POST** /api/auth/login: Login a user and retrieve a JWT.
 
-GET /api/auth/check-username/:username: Check if a username is available.
+**GET** /api/auth/check-username/:username: Check if a username is available.
 
-Chat
+### Chats
 
-POST /api/chat-requests/request: Send a chat request.
+**POST** /api/chat-requests/request: Send a chat request.
 
-GET /api/chat-requests/requests: Get all chat requests for the authenticated user.
+**GET** /api/chat-requests/requests: GET all chat requests for the authenticated user.
 
-GET /api/chat-requests/room/:requestId: Fetch chat room for a request.
+**GET** /api/chat-requests/room/:requestId: Fetch chat room for a request.
 
-POST /api/chat-requests/respond: Respond to a chat request (accept/reject).
+**POST** /api/chat-requests/respond: Respond to a chat request (accept/reject).
 
-POST /api/chat-messages/message: Send a message in a chat room.
+**POST** /api/chat-messages/message: Send a message in a chat room.
 
-GET /api/chat-messages/:chatRoomId/messages: Get all messages for a chat room.
+**GET** /api/chat-messages/:chatRoomId/messages: GET all messages for a chat room.
 
-Posts
+### Posts
 
-POST /api/posts: Create a new post.
+**POST** /api/posts: Create a new POST.
 
-GET /api/posts: Get all posts.
+**GET** /api/posts: GET all POSTs.
 
-GET /api/posts/:id: Get a single post.
+**GET** /api/posts/:id: GET a single POST.
 
-POST /api/posts/:id/comments: Add a comment to a post.
+**POST** /api/posts/:id/comments: Add a comment to a POST.
 
-GET /api/posts/:id/comments: Get all comments for a post.
+**GET** /api/posts/:id/comments: GET all comments for a POST.
 
-POST /api/posts/:id/likes: Update likes/dislikes for a post.
+**POST** /api/posts/:id/likes: Update likes/dislikes for a POST.
 
-Questions
+### Questions
 
-POST /api/questions: Create a question with content validation.
+**POST** /api/questions: Create a question with content validation.
 
-GET /api/questions: Fetch all questions.
+**GET** /api/questions: Fetch all questions.
 
-Notifications
+### Notifications
 
-GET /api/notifications: Fetch notifications for the user.
+**GET** /api/notifications: Fetch notifications for the user.
 
-DELETE /api/notifications/:id: Delete a specific notification.
+**DELETE** /api/notifications/:id: Delete a specific notification.
 
-DELETE /api/notifications: Delete all notifications.
+**DELETE** /api/notifications: Delete all notifications.
 
-Real-Time Communication
+**Real-Time Communication**
 
-Join Room: Clients connect to specific chat rooms using Socket.IO.
+**Join Room**: Clients connect to specific chat rooms using Socket.IO.
 
-Send Message: Messages are broadcast in real time to all participants in a room.
+**Send Message**: Messages are broadcast in real time to all participants in a room.
 
-Receive Notifications: Notifications are emitted to specific users for chat events.
+**Receive Notifications**: Notifications are emitted to specific users for chat events.
 
-Error Handling
+**Error Handling**
 
 Centralized error handling middleware for catching exceptions and providing meaningful error responses.
 
@@ -151,9 +152,9 @@ Validation for required parameters in each API endpoint.
 
 Authorization checks for protected resources.
 
-Future Enhancements
+**Future Enhancements**
 
-Pagination: Add pagination for fetching posts, comments, and messages.
+**Pagination**: Add pagination for fetching posts, comments, and messages.
 
 File Uploads: Allow users to upload files or images in chat and posts.
 
