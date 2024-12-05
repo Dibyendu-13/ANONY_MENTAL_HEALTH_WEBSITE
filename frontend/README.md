@@ -64,8 +64,10 @@ This frontend application is designed to provide a platform for creating and man
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
-   cd <repository-folder>
+   git clone https://github.com/Dibyendu-13/ANONY_MENTAL_HEALTH_WEBSITE/frontend
+   cd frontend
+   ```
+   
 Install dependencies:
 
 ```
