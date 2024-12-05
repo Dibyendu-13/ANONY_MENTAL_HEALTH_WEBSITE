@@ -1,8 +1,8 @@
-# React Application for Posts, Questions, and Chat Requests
+# ANONY Frontend Application
 
 ## Introduction
 
-This React application is designed to provide a platform for creating and managing posts, questions, and chat requests. It includes features like voting, commenting, and real-time chat functionalities.
+This frontend application is designed to provide a platform for creating and managing posts, questions, and chat requests. It includes features like voting, commenting, and real-time chat functionalities.
 
 ---
 
