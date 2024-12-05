@@ -156,8 +156,8 @@ Authorization checks for protected resources.
 
 **Pagination**: Add pagination for fetching posts, comments, and messages.
 
-File Uploads: Allow users to upload files or images in chat and posts.
+**File Uploads**: Allow users to upload files or images in chat and posts.
 
-Admin Dashboard: Manage posts, users, and reported content.
+**Admin Dashboard**: Manage posts, users, and reported content.
 
-Rate Limiting: Prevent abuse with rate-limiting middleware.
+**Rate Limiting**: Prevent abuse with rate-limiting middleware.
