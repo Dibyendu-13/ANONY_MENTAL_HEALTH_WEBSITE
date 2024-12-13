@@ -1,16 +1,19 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Typography, TextField, Button, Paper, Divider } from '@mui/material';
-import { format, isToday, isYesterday } from 'date-fns'; // Date formatting
+import { format, isToday, isYesterday } from 'date-fns';
 import { io } from 'socket.io-client';
 
 const ChatRoom = () => {
   const { chatRoomId } = useParams(); // Get the chatRoomId from route
   const [messages, setMessages] = useState([]); // Store messages
   const [newMessage, setNewMessage] = useState(''); // New message input
+  const [userMessageCount, setUserMessageCount] = useState(0); // Track the current user's message count
+  const [roomClosed, setRoomClosed] = useState(false); // Track if the room is closed
   const messagesEndRef = useRef(null); // Scroll reference
   const userId = useRef(null); // Store userId persistently
   const socket = useRef(null); // Socket instance
+  const navigate = useNavigate(); // For redirecting after room closure
 
   // Fetch userId from the token
   useEffect(() => {
@@ -18,7 +21,6 @@ const ChatRoom = () => {
     if (token) {
       const decodedToken = JSON.parse(atob(token.split('.')[1]));
       userId.current = decodedToken.id;
-      console.log('User ID:', userId.current);
     } else {
       console.error('No token found. User is not authenticated.');
     }
@@ -68,14 +70,45 @@ const ChatRoom = () => {
   };
 
   const sendMessage = () => {
-    if (newMessage.trim()) {
+    if (!roomClosed && newMessage.trim()) {
       const message = {
         chatRoomId,
         content: newMessage,
         senderId: userId.current,
       };
+
+      // Increment the user's message count
+      setUserMessageCount((prevCount) => prevCount + 1);
+
+      // Emit the message to the server
       socket.current.emit('send-message', message);
       setNewMessage('');
+
+      // Check if the message count exceeds the limit
+      if (userMessageCount + 1 >= 5) {
+        closeRoom();
+      }
+    }
+  };
+
+  const closeRoom = async () => {
+    try {
+      const response = await fetch(`http://localhost:5001/api/chat-messages/${chatRoomId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (response.ok) {
+        alert('Chat room has been closed due to message limit.');
+        setRoomClosed(true);
+        navigate('/'); // Redirect to home or another page
+      } else {
+        console.error('Failed to close chat room:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error closing chat room:', error.message);
     }
   };
 
@@ -132,14 +165,21 @@ const ChatRoom = () => {
           fullWidth
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Type a message..."
+          placeholder={roomClosed ? "Chat room is closed" : "Type a message..."}
           variant="outlined"
           sx={{ flex: 1 }}
           onKeyPress={(e) => {
-            if (e.key === 'Enter') sendMessage();
+            if (e.key === 'Enter' && !roomClosed) sendMessage();
           }}
+          disabled={roomClosed} // Disable input when room is closed
         />
-        <Button variant="contained" color="primary" onClick={sendMessage} sx={{ flexShrink: 0 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={sendMessage}
+          sx={{ flexShrink: 0 }}
+          disabled={roomClosed} // Disable button when room is closed
+        >
           Send
         </Button>
       </Box>

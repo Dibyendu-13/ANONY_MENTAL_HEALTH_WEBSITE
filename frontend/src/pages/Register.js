@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../api/api';
 import {
@@ -28,10 +28,8 @@ const Register = () => {
   const [spinning, setSpinning] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [animeList, setAnimeList] = useState(maleAnimeData); // Default anime list
-
   const navigate = useNavigate();
 
-  // Change anime list based on username type
   const handleUsernameTypeChange = (type) => {
     setUsernameType(type);
     setAnimeList(
@@ -61,7 +59,7 @@ const Register = () => {
   const checkUsernameAvailability = async (username) => {
     try {
       await api.get(`/auth/check-username/${username}`);
-      setUsernameError(''); // Username is available
+      setUsernameError('');
     } catch (err) {
       setUsernameError('Username is already taken. Please spin again!');
     }
@@ -70,17 +68,14 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const username = generatedUsername;
-    if (!username) return; // Ensure a username is generated
+    if (!username) return;
     try {
       await api.post('/auth/register', { email, password, username, role });
       toast.success('Registration successful!');
-
-      navigate('/login'); // Redirect to login
+      navigate('/login');
     } catch (err) {
-     
-      toast.error('Username is already taken. Please spin again!');
-
-      console.error(err.response?.data?.error || 'Something went wrong!');
+      const errorMessage = err.response?.data?.error || 'Something went wrong!';
+      toast.error(errorMessage);
     }
   };
 
@@ -240,6 +235,20 @@ const Register = () => {
           Register
         </Button>
       </Box>
+      <Typography
+        variant="body2"
+        sx={{
+          marginTop: 2,
+          textAlign: 'center',
+          color: 'text.secondary',
+          fontWeight: 'medium',
+        }}
+      >
+        Already registered?{' '}
+        <Link to="/login" style={{ color: '#1976d2', textDecoration: 'none', fontWeight: 'bold' }}>
+          Log in here
+        </Link>.
+      </Typography>
     </Container>
   );
 };

@@ -18,6 +18,7 @@ import {
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@mui/material/styles';
+import { toast } from 'react-toastify';
 import axios from 'axios';
 
 const Navbar = () => {
@@ -70,11 +71,13 @@ const Navbar = () => {
       if (response.status === 200 && response.data.chatRoomId) {
         navigate(`/chat-room/${response.data.chatRoomId}`);
       } else {
-        alert('No chat room available for you.');
+        toast.error('No chat room available!');
       }
     } catch (err) {
       console.error('Error checking chat room:', err.message);
-      alert('Failed to check chat room. Please try again.');
+      toast.error('No participants are currently available.');
+
+
     }
   };
 

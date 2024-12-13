@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Add Link for navigation
 import { toast } from 'react-toastify';
 import api from '../api/api';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
@@ -25,7 +25,7 @@ const Login = () => {
 
       if (token && user) {
         localStorage.setItem('token', token);
-        localStorage.setItem('userId', user._id); // Ensure user._id exists
+        localStorage.setItem('userId', user._id);
         toast.success('Login successful!');
         navigate('/');
       } else {
@@ -33,7 +33,7 @@ const Login = () => {
       }
     } catch (err) {
       const errorMessage = err.response?.data?.error || 'Login failed. Please try again.';
-      setError(errorMessage); // Update inline error state
+      setError(errorMessage);
       toast.error(errorMessage);
     }
   };
@@ -85,14 +85,7 @@ const Login = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          sx={{
-            marginBottom: 3,
-            boxShadow: 1,
-            borderRadius: 1,
-            '& .MuiOutlinedInput-root': {
-              borderRadius: 2,
-            },
-          }}
+          sx={{ marginBottom: 3 }}
         />
         <TextField
           label="Password"
@@ -101,30 +94,21 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          sx={{
-            marginBottom: 3,
-            boxShadow: 1,
-            borderRadius: 1,
-            '& .MuiOutlinedInput-root': {
-              borderRadius: 2,
-            },
-          }}
+          sx={{ marginBottom: 3 }}
         />
         <Button
           type="submit"
           variant="contained"
           color="primary"
           fullWidth
-          sx={{
-            fontWeight: 'bold',
-            fontSize: '1rem',
-            padding: { xs: 1, sm: 1.5 },
-            borderRadius: 2,
-          }}
+          sx={{ marginBottom: 2 }}
         >
           Login
         </Button>
       </Box>
+      <Typography variant="body2" sx={{ marginTop: 2 }}>
+        Not registered yet? <Link to="/register">Sign up here</Link>.
+      </Typography>
     </Container>
   );
 };
