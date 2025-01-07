@@ -13,7 +13,7 @@ import {
   Card,
   CardContent,
   CardActions,
-  Badge,
+  
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
@@ -30,7 +30,7 @@ const Notifications = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5001/api/chat-requests/requests', {
+        const { data } = await axios.get('https://anony-backend.onrender.com/api/chat-requests/requests', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -43,7 +43,7 @@ const Notifications = () => {
 
     fetchNotifications();
 
-    const socket = io('http://localhost:5001', {
+    const socket = io('https://anony-backend.onrender.com', {
       query: { userId },
     });
 
@@ -59,8 +59,8 @@ const Notifications = () => {
   const handleAccept = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.post(
-        'http://localhost:5001/api/chat-requests/respond',
+      await axios.post(
+        'https://anony-backend.onrender.com/api/chat-requests/respond',
         { requestId: currentRequest._id, action: 'accept' },
         {
           headers: {
@@ -71,7 +71,7 @@ const Notifications = () => {
 
       // Fetch chat room ID
       const chatRoomResponse = await axios.get(
-        `http://localhost:5001/api/chat-requests/room/${currentRequest._id}`,
+        `https://anony-backend.onrender.com/api/chat-requests/room/${currentRequest._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -98,7 +98,7 @@ const Notifications = () => {
     setLoading(true);
     try {
       await axios.post(
-        'http://localhost:5001/api/chat-requests/respond',
+        'https://anony-backend.onrender.com/api/chat-requests/respond',
         { requestId: currentRequest._id, action: 'reject', reason },
         {
           headers: {
@@ -120,7 +120,7 @@ const Notifications = () => {
   const handleDeleteNotification = async (notificationId) => {
     setLoading(true);
     try {
-      await axios.delete(`http://localhost:5001/api/notifications/${notificationId}`, {
+      await axios.delete(`https://anony-backend.onrender.com/api/notifications/${notificationId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -138,7 +138,7 @@ const Notifications = () => {
   const handleDeleteAllNotifications = async () => {
     setLoading(true);
     try {
-      await axios.delete('http://localhost:5001/api/notifications', {
+      await axios.delete('https://anony-backend.onrender.com/api/notifications', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

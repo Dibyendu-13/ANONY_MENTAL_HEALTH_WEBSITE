@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Typography, TextField, Button, Paper, Divider } from '@mui/material';
 import { format, isToday, isYesterday } from 'date-fns';
@@ -28,7 +28,7 @@ const ChatRoom = () => {
 
   // Initialize socket and join chat room
   useEffect(() => {
-    socket.current = io('http://localhost:5001');
+    socket.current = io('https://anony-backend.onrender.com');
     if (chatRoomId && userId.current) {
       socket.current.emit('join-room', { chatRoomId, userId: userId.current });
     }
@@ -43,16 +43,10 @@ const ChatRoom = () => {
     };
   }, [chatRoomId]);
 
-  // Fetch existing messages
-  useEffect(() => {
-    if (chatRoomId) {
-      fetchMessages(chatRoomId);
-    }
-  }, [chatRoomId]);
-
-  const fetchMessages = async (roomId) => {
+  // Define fetchMessages inside useCallback to prevent it from being redefined on each render
+  const fetchMessages = useCallback(async (roomId) => {
     try {
-      const response = await fetch(`http://localhost:5001/api/chat-messages/${roomId}/messages`, {
+      const response = await fetch(`https://anony-backend.onrender.com/api/chat-messages/${roomId}/messages`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -67,7 +61,13 @@ const ChatRoom = () => {
     } catch (error) {
       console.error('Error fetching messages:', error.message);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (chatRoomId) {
+      fetchMessages(chatRoomId);
+    }
+  }, [chatRoomId, fetchMessages]);  // No longer causes the warning
 
   const sendMessage = () => {
     if (!roomClosed && newMessage.trim()) {
@@ -93,7 +93,7 @@ const ChatRoom = () => {
 
   const closeRoom = async () => {
     try {
-      const response = await fetch(`http://localhost:5001/api/chat-messages/${chatRoomId}`, {
+      const response = await fetch(`https://anony-backend.onrender.com/api/chat-messages/${chatRoomId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
